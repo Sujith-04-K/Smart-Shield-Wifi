@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartShield Wi-Fi</string>
+    <string name="tab_scanner">Scanner</string>
+    <string name="tab_history">History</string>
+    <string name="why_trust_title">Why Should I Trust This Network?</string>
+    <string name="mark_as_verified">Mark as Verified Network</string>
+    <string name="unmark_verified">Remove from Verified Networks</string>
+    <string name="evil_twin_warning">CRITICAL RISK: Possible Evil Twin detected!</string>
+    <string name="scan_throttled_msg">Android scan cooldown active (%1$d seconds remaining)</string>
+</resources>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartShield Wi-Fi — Web Application Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="web-dashboard-container">
+        <!-- Top App Bar -->
+        <header class="web-header">
+            <div class="header-brand">
+                <div class="logo-shield">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h1>SmartShield <span>Wi-Fi</span></h1>
+                    <p class="subtitle">Mobile Security Framework & XAI Trust Assessment Engine</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="live-status-pill">
+                    <span class="pulse-dot"></span> Live Web Dashboard
+                </div>
+                <button id="btn-scan-spectrum" class="btn primary-btn">
+                    <i class="fa-solid fa-rotate-right spinner-icon"></i> Scan Radio Spectrum
+                </button>
+            </div>
+        </header>
+
+        <!-- Top Metrics Overview Bar -->
+        <div class="metrics-row">
+            <div class="metric-card">
+                <div class="metric-icon cyan"><i class="fa-solid fa-wifi"></i></div>
+                <div>
+                    <div id="metric-total-nets" class="metric-val">4</div>
+                    <div class="metric-lbl">Discovered APs</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon green"><i class="fa-solid fa-shield-check"></i></div>
+                <div>
+                    <div id="metric-safe-nets" class="metric-val">3</div>
+                    <div class="metric-lbl">Safe Networks</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div>
+                    <div id="metric-evil-nets" class="metric-val">1</div>
+                    <div class="metric-lbl">Evil Twin Threats</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon purple"><i class="fa-solid fa-database"></i></div>
+                <div>
+                    <div id="metric-known-nets" class="metric-val">1</div>
+                    <div class="metric-lbl">Verified Registry</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Split Grid -->
+        <main class="web-main-grid">
+            <!-- Left Side: Discovered Wi-Fi Spectrum & Controls -->
+            <section class="web-card panel-left">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-list-check"></i> Radio Spectrum List</h2>
+                    <span id="scan-badge-count" class="badge">4 Networks</span>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-bar-container">
+                    <div id="scan-progress-fill" class="progress-bar-fill"></div>
+                </div>
+
+                <!-- Filters & Search -->
+                <div class="filter-controls">
+                    <div class="search-field">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="search-input" placeholder="Search SSID or MAC address...">
+                    </div>
+                    <select id="filter-security" class="select-field">
+                        <option value="ALL">All Security</option>
+                        <option value="WPA3">WPA3 Only</option>
+                        <option value="WPA2">WPA2 Only</option>
+                        <option value="OPEN">Unencrypted (OPEN)</option>
+                    </select>
+                </div>
+
+                <!-- Wi-Fi Network Cards Scroll Box -->
+                <div id="network-list-box" class="network-list-box">
+                    <!-- Populated via JS -->
+                </div>
+
+                <!-- Security Attack Lab Simulators -->
+                <div class="lab-simulators">
+                    <h3><i class="fa-solid fa-vial"></i> Security Lab Attack Simulators</h3>
+                    <div class="sim-btn-group">
+                        <button id="sim-campus" class="btn sec-btn"><i class="fa-solid fa-building"></i> Campus Wi-Fi</button>
+                        <button id="sim-eviltwin" class="btn sec-btn warning"><i class="fa-solid fa-triangle-exclamation"></i> Evil Twin Attack</button>
+                        <button id="sim-open" class="btn sec-btn danger"><i class="fa-solid fa-unlock"></i> Open AP Risk</button>
+                        <button id="open-modal-btn" class="btn outline-btn"><i class="fa-solid fa-plus"></i> Custom AP</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Side: Trust Meter & XAI Audit Report -->
+            <section class="web-card panel-right">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Trust Assessment & XAI Audit</h2>
+                    <span id="selected-ssid-pill" class="badge highlight">Select Network</span>
+                </div>
+
+                <div id="no-selection-state" class="empty-selection">
+                    <i class="fa-solid fa-wifi-slash empty-icon"></i>
+                    <h3>No Wi-Fi Network Selected</h3>
+                    <p>Click any access point from the spectrum list on the left to run the Multi-Criteria Trust Engine.</p>
+                </div>
+
+                <div id="audit-detail-content" class="audit-content hidden">
+                    <!-- Gauge Score HUD Card -->
+                    <div class="gauge-hud-card">
+                        <div id="gauge-circle" class="gauge-circle">
+                            <div class="gauge-center">
+                                <span id="trust-num" class="score-num">85</span>
+                                <span class="score-denom">/ 100</span>
+                                <div id="verdict-tag" class="verdict-pill safe">SAFE</div>
+                            </div>
+                        </div>
+                        <div class="gauge-info">
+                            <h3 id="target-ssid-title">Swargalokam-2.4G_plus</h3>
+                            <p id="target-bssid-text" class="mono-text">BSSID: 28:d1:27:d2:24:c7</p>
+                            <div class="meta-pills">
+                                <span id="target-sec-pill" class="meta-pill"><i class="fa-solid fa-lock"></i> WPA2</span>
+                                <span id="target-rssi-pill" class="meta-pill"><i class="fa-solid fa-signal"></i> -43 dBm</span>
+                                <span id="target-vendor-pill" class="meta-pill"><i class="fa-solid fa-microchip"></i> Cisco Systems</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Score Breakdown Bars -->
+                    <div class="category-scores-grid">
+                        <div class="cat-box">
+                            <div class="cat-hdr"><span>🛡️ 1. Security Protocol</span><span id="score-sec">30/40</span></div>
+                            <div class="bar-bg"><div id="fill-sec" class="bar-fill" style="width: 75%;"></div></div>
+                        </div>
+                        <div class="cat-box">
+                            <div class="cat-hdr"><span>👯 2. Evil Twin & Similarity</span><span id="score-sim">30/30</span></div>
+                            <div class="bar-bg"><div id="fill-sim" class="bar-fill" style="width: 100%;"></div></div>
+                        </div>
+                        <div class="cat-box">
+                            <div class="cat-hdr"><span>💾 3. Known Registry</span><span id="score-known">20/20</span></div>
+                            <div class="bar-bg"><div id="fill-known" class="bar-fill" style="width: 100%;"></div></div>
+                        </div>
+                        <div class="cat-box">
+                            <div class="cat-hdr"><span>📶 4. Signal Strength</span><span id="score-signal">8/10</span></div>
+                            <div class="bar-bg"><div id="fill-signal" class="bar-fill" style="width: 80%;"></div></div>
+                        </div>
+                    </div>
+
+                    <!-- XAI Explanation Audit Trail -->
+                    <div class="xai-explanation-box">
+                        <h3><i class="fa-solid fa-circle-info"></i> Why Should I Trust This Network? (XAI Explanation)</h3>
+                        <div id="xai-reasons-list" class="reasons-list">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="audit-actions">
+                        <button id="btn-toggle-trust" class="btn outline-btn"><i class="fa-solid fa-bookmark"></i> Save to Verified Registry</button>
+                        <button id="btn-generate-qr" class="btn sec-btn"><i class="fa-solid fa-qrcode"></i> Generate Wi-Fi QR Code</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Tools Grid: Spectrum Analyzer & QR Tool -->
+        <div class="web-bottom-grid">
+            <!-- Channel Analyzer -->
+            <section class="web-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> Spectrum Channel Analyzer</h2>
+                </div>
+                <div class="spectrum-chart-placeholder">
+                    <div class="chart-recom-box">
+                        <i class="fa-solid fa-lightbulb"></i> <b>Optimal Channel Recommendation:</b> Channel 6 (Non-overlapping with 0 active APs)
+                    </div>
+                    <div id="channel-bars-list" class="channel-bars-list">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- QR Tool -->
+            <section class="web-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-qrcode"></i> Wi-Fi QR Code Parser & Scanner</h2>
+                </div>
+                <div class="qr-tool-box">
+                    <label>Android QR Code String (`WIFI:S:SSID;T:WPA;P:Pass;;`):</label>
+                    <div class="input-btn-row">
+                        <input type="text" id="qr-input-text" value="WIFI:S:Swargalokam-5G;T:WPA;P:SmartPass2026;;">
+                        <button id="btn-parse-qr" class="btn primary-btn"><i class="fa-solid fa-bolt"></i> Parse QR</button>
+                    </div>
+                    <div id="qr-output-box" class="qr-output-box">
+                        <!-- Dynamic output -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="web-footer">
+            <p>SmartShield Wi-Fi Framework &copy; 2026 | B.Tech Mobile Computing Capstone Project | Built with MVVM + Rule-Based XAI Engine</p>
+        </footer>
+    </div>
+
+    <!-- Modal for Adding Custom AP -->
+    <div id="custom-modal" class="modal-backdrop hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-plus-circle"></i> Add Custom Wi-Fi AP</h3>
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+            </div>
+            <form id="custom-ap-form">
+                <div class="form-group">
+                    <label>Network Name (SSID):</label>
+                    <input type="text" id="new-ssid" required placeholder="e.g. Swargalokam-2.4G">
+                </div>
+                <div class="form-group">
+                    <label>BSSID (MAC Address):</label>
+                    <input type="text" id="new-bssid" required value="28:D1:27:D2:24:C7">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Security:</label>
+                        <select id="new-security">
+                            <option value="WPA3">WPA3 (SAE)</option>
+                            <option value="WPA2">WPA2-PSK (AES)</option>
+                            <option value="WPA">WPA Legacy (TKIP)</option>
+                            <option value="OPEN">OPEN (Unencrypted)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>RSSI Signal (dBm):</label>
+                        <input type="number" id="new-rssi" value="-50" min="-100" max="-30">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cancel-modal-btn" class="btn outline-btn">Cancel</button>
+                    <button type="submit" class="btn primary-btn">Add Network</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

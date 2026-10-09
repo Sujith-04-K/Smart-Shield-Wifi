@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0F1D"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Header Badge & Title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#0F2942"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:text="📡 CYBER RADIO RADAR"
+            android:textColor="#38BDF8"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● LIVE SPECTRUM"
+            android:textColor="#4ADE80"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Wi-Fi Channel Spectrum &amp; Interference"
+        android:textColor="#F8FAFC"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Real-time radio frequency signal curves &amp; channel density"
+        android:textColor="#94A3B8"
+        android:textSize="12sp" />
+
+    <!-- Band Switcher Tabs -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutBand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#151D2A"
+        app:tabIndicatorColor="#38BDF8"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="#38BDF8"
+        app:tabTextColor="#94A3B8">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.4 GHz Spectrum" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 GHz Spectrum" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- Spectrum Canvas Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        app:cardBackgroundColor="#151D2A"
+        app:cardCornerRadius="16dp"
+        app:strokeColor="#0284C7"
+        app:strokeWidth="1.5dp">
+
+        <com.smartshield.wifi.presentation.customview.ChannelSpectrumView
+            android:id="@+id/spectrumView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="6dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Optimal Channel Recommendation Hero Box -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="#0C2338"
+        app:cardCornerRadius="14dp"
+        app:strokeColor="#0284C7"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/tvOptimalChannelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💡 Optimal Channel Recommendation"
+                android:textColor="#38BDF8"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvOptimalChannelDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Recommended Channel: Ch 6 (Lowest Interference)"
+                android:textColor="#E2E8F0"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Channel Breakdown Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Channel Usage &amp; Co-Channel Interference"
+        android:textColor="#F8FAFC"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChannelStats"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
